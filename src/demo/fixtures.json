@@ -1,0 +1,1452 @@
+{
+ "now": 1790000000,
+ "responses": {
+  "/api/v1/me": {
+   "name": "lumen_demo",
+   "inbox_count": 2
+  },
+  "/best": {
+   "kind": "Listing",
+   "data": {
+    "after": "t3_dm5",
+    "children": [
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm1",
+       "name": "t3_dm1",
+       "title": "Which glasses are you actually wearing every day this year?",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "maya_j",
+       "created_utc": 1789992800,
+       "score": 1204,
+       "hide_score": false,
+       "num_comments": 86,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "I keep buying new pairs and going back to the same one.\n\nCurious what survives a whole week for you: **battery**, comfort, or the apps?\n\n- Battery\n- Comfort\n- Apps",
+       "domain": "self.smartglasses",
+       "link_flair_text": "Discussion",
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm1/x/"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm2",
+       "name": "t3_dm2",
+       "title": "Hands-on: reading long threads on a 600 px heads-up display",
+       "subreddit": "AR_MR_XR",
+       "subreddit_name_prefixed": "r/AR_MR_XR",
+       "author": "alexlee",
+       "created_utc": 1789982000,
+       "score": 342,
+       "hide_score": false,
+       "num_comments": 41,
+       "likes": null,
+       "saved": false,
+       "is_self": false,
+       "selftext": "",
+       "domain": "example.com",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "AR_MR_XR",
+        "display_name_prefixed": "r/AR_MR_XR",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/AR_MR_XR/comments/dm2/x/",
+       "post_hint": "link"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm3",
+       "name": "t3_dm3",
+       "title": "Fog rolling in over the coast at sunrise [OC] [4032x3024]",
+       "subreddit": "EarthPorn",
+       "subreddit_name_prefixed": "r/EarthPorn",
+       "author": "sam.rivera",
+       "created_utc": 1789989200,
+       "score": 24300,
+       "hide_score": false,
+       "num_comments": 214,
+       "likes": null,
+       "saved": false,
+       "is_self": false,
+       "selftext": "",
+       "domain": "i.redd.it",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "EarthPorn",
+        "display_name_prefixed": "r/EarthPorn",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/EarthPorn/comments/dm3/x/",
+       "post_hint": "image",
+       "preview": {
+        "images": [
+         {
+          "source": {
+           "url": "demo:coast",
+           "width": 4032,
+           "height": 3024
+          },
+          "resolutions": [
+           {
+            "url": "demo:coast",
+            "width": 640,
+            "height": 480
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm4",
+       "name": "t3_dm4",
+       "title": "Qual app vocês mais usam no transporte público?",
+       "subreddit": "brasil",
+       "subreddit_name_prefixed": "r/brasil",
+       "author": "carla_m",
+       "created_utc": 1789978400,
+       "score": 88,
+       "hide_score": false,
+       "num_comments": 57,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "Estou montando uma lista de apps que funcionam bem com uma mão só.",
+       "domain": "self.brasil",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "brasil",
+        "display_name_prefixed": "r/brasil",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/brasil/comments/dm4/x/"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm5",
+       "name": "t3_dm5",
+       "title": "What finally made keyboard-only navigation click for you?",
+       "subreddit": "programming",
+       "subreddit_name_prefixed": "r/programming",
+       "author": "devon",
+       "created_utc": 1789967600,
+       "score": 512,
+       "hide_score": false,
+       "num_comments": 133,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "Arrow keys, Enter and Escape. That is the whole interface on my glasses and it works better than I expected.",
+       "domain": "self.programming",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "programming",
+        "display_name_prefixed": "r/programming",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/programming/comments/dm5/x/"
+      }
+     }
+    ]
+   }
+  },
+  "/best?after=t3_dm5": {
+   "kind": "Listing",
+   "data": {
+    "after": null,
+    "children": [
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm6",
+       "name": "t3_dm6",
+       "title": "My desk setup with the RG glasses",
+       "subreddit": "rokid_official",
+       "subreddit_name_prefixed": "r/rokid_official",
+       "author": "rokid_fan",
+       "created_utc": 1789906400,
+       "score": 77,
+       "hide_score": false,
+       "num_comments": 12,
+       "likes": null,
+       "saved": false,
+       "is_self": false,
+       "selftext": "",
+       "domain": "reddit.com",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "rokid_official",
+        "display_name_prefixed": "r/rokid_official",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/rokid_official/comments/dm6/x/",
+       "preview": {
+        "images": [
+         {
+          "source": {
+           "url": "demo:desk",
+           "width": 3000,
+           "height": 2000
+          },
+          "resolutions": [
+           {
+            "url": "demo:desk",
+            "width": 640,
+            "height": 427
+           }
+          ]
+         }
+        ]
+       },
+       "is_gallery": true,
+       "gallery_data": {
+        "items": [
+         {
+          "media_id": "m1",
+          "id": 1
+         },
+         {
+          "media_id": "m2",
+          "id": 2
+         }
+        ]
+       },
+       "media_metadata": {
+        "m1": {
+         "status": "valid",
+         "e": "Image",
+         "m": "image/webp",
+         "s": {
+          "u": "demo:desk",
+          "x": 3000,
+          "y": 2000
+         },
+         "p": [
+          {
+           "u": "demo:desk",
+           "x": 640,
+           "y": 427
+          }
+         ]
+        },
+        "m2": {
+         "status": "valid",
+         "e": "Image",
+         "m": "image/webp",
+         "s": {
+          "u": "demo:desk",
+          "x": 3000,
+          "y": 2000
+         }
+        }
+       }
+      }
+     }
+    ]
+   }
+  },
+  "/r/popular/hot": {
+   "kind": "Listing",
+   "data": {
+    "after": null,
+    "children": [
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm7",
+       "name": "t3_dm7",
+       "title": "A very quiet street after the rain",
+       "subreddit": "pics",
+       "subreddit_name_prefixed": "r/pics",
+       "author": "noor",
+       "created_utc": 1789985600,
+       "score": 15800,
+       "hide_score": false,
+       "num_comments": 320,
+       "likes": null,
+       "saved": false,
+       "is_self": false,
+       "selftext": "",
+       "domain": "i.redd.it",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "pics",
+        "display_name_prefixed": "r/pics",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/pics/comments/dm7/x/",
+       "post_hint": "image",
+       "preview": {
+        "images": [
+         {
+          "source": {
+           "url": "demo:street",
+           "width": 3000,
+           "height": 2000
+          },
+          "resolutions": [
+           {
+            "url": "demo:street",
+            "width": 640,
+            "height": 427
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm8",
+       "name": "t3_dm8",
+       "title": "TIL the first heads-up displays were built for fighter pilots in the 1950s",
+       "subreddit": "todayilearned",
+       "subreddit_name_prefixed": "r/todayilearned",
+       "author": "histbuff",
+       "created_utc": 1789974800,
+       "score": 40210,
+       "hide_score": false,
+       "num_comments": 1450,
+       "likes": null,
+       "saved": false,
+       "is_self": false,
+       "selftext": "",
+       "domain": "en.wikipedia.org",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "todayilearned",
+        "display_name_prefixed": "r/todayilearned",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/todayilearned/comments/dm8/x/",
+       "post_hint": "link"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm3",
+       "name": "t3_dm3",
+       "title": "Fog rolling in over the coast at sunrise [OC] [4032x3024]",
+       "subreddit": "EarthPorn",
+       "subreddit_name_prefixed": "r/EarthPorn",
+       "author": "sam.rivera",
+       "created_utc": 1789989200,
+       "score": 24300,
+       "hide_score": false,
+       "num_comments": 214,
+       "likes": null,
+       "saved": false,
+       "is_self": false,
+       "selftext": "",
+       "domain": "i.redd.it",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "EarthPorn",
+        "display_name_prefixed": "r/EarthPorn",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/EarthPorn/comments/dm3/x/",
+       "post_hint": "image",
+       "preview": {
+        "images": [
+         {
+          "source": {
+           "url": "demo:coast",
+           "width": 4032,
+           "height": 3024
+          },
+          "resolutions": [
+           {
+            "url": "demo:coast",
+            "width": 640,
+            "height": 480
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  "/r/smartglasses/hot": {
+   "kind": "Listing",
+   "data": {
+    "after": null,
+    "children": [
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm1",
+       "name": "t3_dm1",
+       "title": "Which glasses are you actually wearing every day this year?",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "maya_j",
+       "created_utc": 1789992800,
+       "score": 1204,
+       "hide_score": false,
+       "num_comments": 86,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "I keep buying new pairs and going back to the same one.\n\nCurious what survives a whole week for you: **battery**, comfort, or the apps?\n\n- Battery\n- Comfort\n- Apps",
+       "domain": "self.smartglasses",
+       "link_flair_text": "Discussion",
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm1/x/"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm9",
+       "name": "t3_dm9",
+       "title": "Battery tips: what finally got me through a full workday",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "sam.rivera",
+       "created_utc": 1789985600,
+       "score": 230,
+       "hide_score": false,
+       "num_comments": 28,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "Screen off between glances, Wi-Fi off when the phone is near, and a short brightness ramp at night.",
+       "domain": "self.smartglasses",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm9/x/"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm10",
+       "name": "t3_dm10",
+       "title": "Prescription inserts, a year later",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "alexlee",
+       "created_utc": 1789967600,
+       "score": 61,
+       "hide_score": false,
+       "num_comments": 19,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "Short version: worth it, but get the measurements done twice.",
+       "domain": "self.smartglasses",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm10/x/"
+      }
+     }
+    ]
+   }
+  },
+  "/r/smartglasses/new": {
+   "kind": "Listing",
+   "data": {
+    "after": null,
+    "children": [
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm9",
+       "name": "t3_dm9",
+       "title": "Battery tips: what finally got me through a full workday",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "sam.rivera",
+       "created_utc": 1789985600,
+       "score": 230,
+       "hide_score": false,
+       "num_comments": 28,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "Screen off between glances, Wi-Fi off when the phone is near, and a short brightness ramp at night.",
+       "domain": "self.smartglasses",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm9/x/"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm1",
+       "name": "t3_dm1",
+       "title": "Which glasses are you actually wearing every day this year?",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "maya_j",
+       "created_utc": 1789992800,
+       "score": 1204,
+       "hide_score": false,
+       "num_comments": 86,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "I keep buying new pairs and going back to the same one.\n\nCurious what survives a whole week for you: **battery**, comfort, or the apps?\n\n- Battery\n- Comfort\n- Apps",
+       "domain": "self.smartglasses",
+       "link_flair_text": "Discussion",
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm1/x/"
+      }
+     },
+     {
+      "kind": "t3",
+      "data": {
+       "id": "dm10",
+       "name": "t3_dm10",
+       "title": "Prescription inserts, a year later",
+       "subreddit": "smartglasses",
+       "subreddit_name_prefixed": "r/smartglasses",
+       "author": "alexlee",
+       "created_utc": 1789967600,
+       "score": 61,
+       "hide_score": false,
+       "num_comments": 19,
+       "likes": null,
+       "saved": false,
+       "is_self": true,
+       "selftext": "Short version: worth it, but get the measurements done twice.",
+       "domain": "self.smartglasses",
+       "link_flair_text": null,
+       "over_18": false,
+       "spoiler": false,
+       "stickied": false,
+       "is_video": false,
+       "sr_detail": {
+        "display_name": "smartglasses",
+        "display_name_prefixed": "r/smartglasses",
+        "community_icon": "",
+        "icon_img": ""
+       },
+       "permalink": "/r/smartglasses/comments/dm10/x/"
+      }
+     }
+    ]
+   }
+  },
+  "/comments/dm1": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm1",
+        "name": "t3_dm1",
+        "title": "Which glasses are you actually wearing every day this year?",
+        "subreddit": "smartglasses",
+        "subreddit_name_prefixed": "r/smartglasses",
+        "author": "maya_j",
+        "created_utc": 1789992800,
+        "score": 1204,
+        "hide_score": false,
+        "num_comments": 86,
+        "likes": null,
+        "saved": false,
+        "is_self": true,
+        "selftext": "I keep buying new pairs and going back to the same one.\n\nCurious what survives a whole week for you: **battery**, comfort, or the apps?\n\n- Battery\n- Comfort\n- Apps",
+        "domain": "self.smartglasses",
+        "link_flair_text": "Discussion",
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "smartglasses",
+         "display_name_prefixed": "r/smartglasses",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/smartglasses/comments/dm1/x/"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t1",
+       "data": {
+        "id": "c1",
+        "name": "t1_c1",
+        "author": "alexlee",
+        "body": "Same pair for months. The apps matter less than being able to wear them all day without thinking about it.",
+        "created_utc": 1789996400,
+        "score": 312,
+        "score_hidden": false,
+        "likes": null,
+        "stickied": false,
+        "replies": {
+         "kind": "Listing",
+         "data": {
+          "after": null,
+          "children": [
+           {
+            "kind": "t1",
+            "data": {
+             "id": "c11",
+             "name": "t1_c11",
+             "author": "maya_j",
+             "body": "Agreed. Comfort first, then battery, then everything else.",
+             "created_utc": 1789997300,
+             "score": 120,
+             "score_hidden": false,
+             "likes": null,
+             "stickied": false,
+             "replies": {
+              "kind": "Listing",
+              "data": {
+               "after": null,
+               "children": [
+                {
+                 "kind": "t1",
+                 "data": {
+                  "id": "c111",
+                  "name": "t1_c111",
+                  "author": "alexlee",
+                  "body": "Exactly my order too.",
+                  "created_utc": 1789998200,
+                  "score": 14,
+                  "score_hidden": false,
+                  "likes": null,
+                  "stickied": false,
+                  "replies": ""
+                 }
+                }
+               ]
+              }
+             }
+            }
+           },
+           {
+            "kind": "more",
+            "data": {
+             "count": 3,
+             "children": [
+              "zz1"
+             ]
+            }
+           }
+          ]
+         }
+        }
+       }
+      },
+      {
+       "kind": "t1",
+       "data": {
+        "id": "c2",
+        "name": "t1_c2",
+        "author": "sam.rivera",
+        "body": "Mine stay on because notifications finally work without pulling the phone out.",
+        "created_utc": 1789998200,
+        "score": 98,
+        "score_hidden": false,
+        "likes": null,
+        "stickied": false,
+        "replies": ""
+       }
+      },
+      {
+       "kind": "t1",
+       "data": {
+        "id": "c3",
+        "name": "t1_c3",
+        "author": "devon",
+        "body": "Honestly the **band** is what keeps me wearing them. Swipes beat any touchpad.",
+        "created_utc": 1789998800,
+        "score": 44,
+        "score_hidden": false,
+        "likes": null,
+        "stickied": false,
+        "replies": ""
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "/subreddits/mine/subscriber": {
+   "kind": "Listing",
+   "data": {
+    "after": null,
+    "children": [
+     {
+      "kind": "t5",
+      "data": {
+       "display_name": "smartglasses",
+       "title": "Smart glasses",
+       "public_description": "Daily wear, reviews and setups",
+       "community_icon": "",
+       "icon_img": "",
+       "subscribers": 120400
+      }
+     },
+     {
+      "kind": "t5",
+      "data": {
+       "display_name": "AR_MR_XR",
+       "title": "AR, MR and XR",
+       "public_description": "Augmented and mixed reality news",
+       "community_icon": "",
+       "icon_img": "",
+       "subscribers": 88000
+      }
+     },
+     {
+      "kind": "t5",
+      "data": {
+       "display_name": "brasil",
+       "title": "Brasil",
+       "public_description": "Brasil, brasileiros e o mundo",
+       "community_icon": "",
+       "icon_img": "",
+       "subscribers": 1900000
+      }
+     },
+     {
+      "kind": "t5",
+      "data": {
+       "display_name": "EarthPorn",
+       "title": "EarthPorn",
+       "public_description": "Landscape photography",
+       "community_icon": "",
+       "icon_img": "",
+       "subscribers": 24000000
+      }
+     },
+     {
+      "kind": "t5",
+      "data": {
+       "display_name": "programming",
+       "title": "programming",
+       "public_description": "Computer programming",
+       "community_icon": "",
+       "icon_img": "",
+       "subscribers": 6000000
+      }
+     }
+    ]
+   }
+  },
+  "/message/inbox": {
+   "kind": "Listing",
+   "data": {
+    "after": null,
+    "children": [
+     {
+      "kind": "t1",
+      "data": {
+       "name": "t1_r1",
+       "author": "maya_j",
+       "body": "Comfort first, then battery. Thanks for asking this!",
+       "created_utc": 1789999280,
+       "new": true,
+       "was_comment": true,
+       "subreddit": "smartglasses",
+       "context": "/r/smartglasses/comments/dm1/which_glasses/r1/?context=3",
+       "subject": "comment reply",
+       "link_title": "Which glasses are you actually wearing every day this year?"
+      }
+     },
+     {
+      "kind": "t1",
+      "data": {
+       "name": "t1_r2",
+       "author": "alexlee",
+       "body": "u/lumen_demo you were asking about this one.",
+       "created_utc": 1789996400,
+       "new": true,
+       "was_comment": true,
+       "subreddit": "AR_MR_XR",
+       "context": "/r/AR_MR_XR/comments/dm2/hands_on/r2/?context=3",
+       "subject": "username mention",
+       "link_title": "Hands-on: reading long threads on a 600 px heads-up display"
+      }
+     },
+     {
+      "kind": "t4",
+      "data": {
+       "name": "t4_m1",
+       "author": "sam.rivera",
+       "body": "Thanks for the battery tips, they helped a lot.",
+       "created_utc": 1789892000,
+       "new": false,
+       "was_comment": false,
+       "subreddit": null,
+       "context": "",
+       "subject": "Battery tips"
+      }
+     }
+    ]
+   }
+  },
+  "/comments/dm2": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm2",
+        "name": "t3_dm2",
+        "title": "Hands-on: reading long threads on a 600 px heads-up display",
+        "subreddit": "AR_MR_XR",
+        "subreddit_name_prefixed": "r/AR_MR_XR",
+        "author": "alexlee",
+        "created_utc": 1789982000,
+        "score": 342,
+        "hide_score": false,
+        "num_comments": 41,
+        "likes": null,
+        "saved": false,
+        "is_self": false,
+        "selftext": "",
+        "domain": "example.com",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "AR_MR_XR",
+         "display_name_prefixed": "r/AR_MR_XR",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/AR_MR_XR/comments/dm2/x/",
+        "post_hint": "link"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm3": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm3",
+        "name": "t3_dm3",
+        "title": "Fog rolling in over the coast at sunrise [OC] [4032x3024]",
+        "subreddit": "EarthPorn",
+        "subreddit_name_prefixed": "r/EarthPorn",
+        "author": "sam.rivera",
+        "created_utc": 1789989200,
+        "score": 24300,
+        "hide_score": false,
+        "num_comments": 214,
+        "likes": null,
+        "saved": false,
+        "is_self": false,
+        "selftext": "",
+        "domain": "i.redd.it",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "EarthPorn",
+         "display_name_prefixed": "r/EarthPorn",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/EarthPorn/comments/dm3/x/",
+        "post_hint": "image",
+        "preview": {
+         "images": [
+          {
+           "source": {
+            "url": "demo:coast",
+            "width": 4032,
+            "height": 3024
+           },
+           "resolutions": [
+            {
+             "url": "demo:coast",
+             "width": 640,
+             "height": 480
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm4": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm4",
+        "name": "t3_dm4",
+        "title": "Qual app vocês mais usam no transporte público?",
+        "subreddit": "brasil",
+        "subreddit_name_prefixed": "r/brasil",
+        "author": "carla_m",
+        "created_utc": 1789978400,
+        "score": 88,
+        "hide_score": false,
+        "num_comments": 57,
+        "likes": null,
+        "saved": false,
+        "is_self": true,
+        "selftext": "Estou montando uma lista de apps que funcionam bem com uma mão só.",
+        "domain": "self.brasil",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "brasil",
+         "display_name_prefixed": "r/brasil",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/brasil/comments/dm4/x/"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm5": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm5",
+        "name": "t3_dm5",
+        "title": "What finally made keyboard-only navigation click for you?",
+        "subreddit": "programming",
+        "subreddit_name_prefixed": "r/programming",
+        "author": "devon",
+        "created_utc": 1789967600,
+        "score": 512,
+        "hide_score": false,
+        "num_comments": 133,
+        "likes": null,
+        "saved": false,
+        "is_self": true,
+        "selftext": "Arrow keys, Enter and Escape. That is the whole interface on my glasses and it works better than I expected.",
+        "domain": "self.programming",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "programming",
+         "display_name_prefixed": "r/programming",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/programming/comments/dm5/x/"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm6": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm6",
+        "name": "t3_dm6",
+        "title": "My desk setup with the RG glasses",
+        "subreddit": "rokid_official",
+        "subreddit_name_prefixed": "r/rokid_official",
+        "author": "rokid_fan",
+        "created_utc": 1789906400,
+        "score": 77,
+        "hide_score": false,
+        "num_comments": 12,
+        "likes": null,
+        "saved": false,
+        "is_self": false,
+        "selftext": "",
+        "domain": "reddit.com",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "rokid_official",
+         "display_name_prefixed": "r/rokid_official",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/rokid_official/comments/dm6/x/",
+        "preview": {
+         "images": [
+          {
+           "source": {
+            "url": "demo:desk",
+            "width": 3000,
+            "height": 2000
+           },
+           "resolutions": [
+            {
+             "url": "demo:desk",
+             "width": 640,
+             "height": 427
+            }
+           ]
+          }
+         ]
+        },
+        "is_gallery": true,
+        "gallery_data": {
+         "items": [
+          {
+           "media_id": "m1",
+           "id": 1
+          },
+          {
+           "media_id": "m2",
+           "id": 2
+          }
+         ]
+        },
+        "media_metadata": {
+         "m1": {
+          "status": "valid",
+          "e": "Image",
+          "m": "image/webp",
+          "s": {
+           "u": "demo:desk",
+           "x": 3000,
+           "y": 2000
+          },
+          "p": [
+           {
+            "u": "demo:desk",
+            "x": 640,
+            "y": 427
+           }
+          ]
+         },
+         "m2": {
+          "status": "valid",
+          "e": "Image",
+          "m": "image/webp",
+          "s": {
+           "u": "demo:desk",
+           "x": 3000,
+           "y": 2000
+          }
+         }
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm7": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm7",
+        "name": "t3_dm7",
+        "title": "A very quiet street after the rain",
+        "subreddit": "pics",
+        "subreddit_name_prefixed": "r/pics",
+        "author": "noor",
+        "created_utc": 1789985600,
+        "score": 15800,
+        "hide_score": false,
+        "num_comments": 320,
+        "likes": null,
+        "saved": false,
+        "is_self": false,
+        "selftext": "",
+        "domain": "i.redd.it",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "pics",
+         "display_name_prefixed": "r/pics",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/pics/comments/dm7/x/",
+        "post_hint": "image",
+        "preview": {
+         "images": [
+          {
+           "source": {
+            "url": "demo:street",
+            "width": 3000,
+            "height": 2000
+           },
+           "resolutions": [
+            {
+             "url": "demo:street",
+             "width": 640,
+             "height": 427
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm8": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm8",
+        "name": "t3_dm8",
+        "title": "TIL the first heads-up displays were built for fighter pilots in the 1950s",
+        "subreddit": "todayilearned",
+        "subreddit_name_prefixed": "r/todayilearned",
+        "author": "histbuff",
+        "created_utc": 1789974800,
+        "score": 40210,
+        "hide_score": false,
+        "num_comments": 1450,
+        "likes": null,
+        "saved": false,
+        "is_self": false,
+        "selftext": "",
+        "domain": "en.wikipedia.org",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "todayilearned",
+         "display_name_prefixed": "r/todayilearned",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/todayilearned/comments/dm8/x/",
+        "post_hint": "link"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm9": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm9",
+        "name": "t3_dm9",
+        "title": "Battery tips: what finally got me through a full workday",
+        "subreddit": "smartglasses",
+        "subreddit_name_prefixed": "r/smartglasses",
+        "author": "sam.rivera",
+        "created_utc": 1789985600,
+        "score": 230,
+        "hide_score": false,
+        "num_comments": 28,
+        "likes": null,
+        "saved": false,
+        "is_self": true,
+        "selftext": "Screen off between glances, Wi-Fi off when the phone is near, and a short brightness ramp at night.",
+        "domain": "self.smartglasses",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "smartglasses",
+         "display_name_prefixed": "r/smartglasses",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/smartglasses/comments/dm9/x/"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ],
+  "/comments/dm10": [
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": [
+      {
+       "kind": "t3",
+       "data": {
+        "id": "dm10",
+        "name": "t3_dm10",
+        "title": "Prescription inserts, a year later",
+        "subreddit": "smartglasses",
+        "subreddit_name_prefixed": "r/smartglasses",
+        "author": "alexlee",
+        "created_utc": 1789967600,
+        "score": 61,
+        "hide_score": false,
+        "num_comments": 19,
+        "likes": null,
+        "saved": false,
+        "is_self": true,
+        "selftext": "Short version: worth it, but get the measurements done twice.",
+        "domain": "self.smartglasses",
+        "link_flair_text": null,
+        "over_18": false,
+        "spoiler": false,
+        "stickied": false,
+        "is_video": false,
+        "sr_detail": {
+         "display_name": "smartglasses",
+         "display_name_prefixed": "r/smartglasses",
+         "community_icon": "",
+         "icon_img": ""
+        },
+        "permalink": "/r/smartglasses/comments/dm10/x/"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "kind": "Listing",
+    "data": {
+     "after": null,
+     "children": []
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,179 @@
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: var(--uit-color-background-window);
+}
+
+body {
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* A route with a bottom dock: the single vertical owner, then the actions. */
+.action-page-shell {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  block-size: 100%;
+  min-block-size: 0;
+  min-inline-size: 0;
+}
+
+.action-dock {
+  min-inline-size: 0;
+  padding-block-end: var(--uit-spacing-xsmall);
+}
+
+.content-inset {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--uit-spacing-large) + var(--uit-spacing-xsmall));
+  min-inline-size: 0;
+  padding: var(--uit-spacing-large);
+}
+
+.content-inset > p,
+.content-inset > h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.state-action {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Feed cards sit in the list with the same inset as its rows. */
+.feed-card {
+  display: flex;
+  min-inline-size: 0;
+  padding: var(--uit-spacing-small) var(--uit-spacing-large);
+}
+
+.post-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card-image {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.post-card-label {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.post-card-title {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Title, author and tags stay together inside the post's content stack. */
+.post-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--uit-spacing-small);
+  min-inline-size: 0;
+}
+
+.post-heading > h2,
+.post-heading > p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--uit-spacing-small);
+  min-inline-size: 0;
+}
+
+.panel-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--uit-spacing-sm-med);
+  min-inline-size: 0;
+  padding: var(--uit-spacing-large);
+}
+
+.panel-text > p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Full-screen picture: the image fits the viewport on the window background. */
+.photo-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--uit-spacing-large);
+  outline: none;
+}
+
+.photo-image {
+  display: block;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+}
+
+.photo-image[hidden] {
+  display: none;
+}
+
+/* Loading placeholders shaped like list rows. */
+.shimmer-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--uit-spacing-large);
+}
+
+.shimmer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--uit-spacing-medium);
+  min-inline-size: 0;
+}
+
+.shimmer-avatar {
+  flex: 0 0 auto;
+  inline-size: var(--uit-icon-2xl);
+  block-size: var(--uit-icon-2xl);
+}
+
+.shimmer-lines {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--uit-spacing-small);
+  min-inline-size: 0;
+}
+
+.shimmer-line {
+  inline-size: 100%;
+  block-size: var(--uit-spacing-large);
+}
+
+.shimmer-line--short {
+  inline-size: 40%;
+}
