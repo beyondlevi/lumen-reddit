@@ -2,7 +2,7 @@
   "id": "cloud.bynd.lumen.reddit",
   "name": "Reddit for Lumen",
   "short_name": "Reddit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Browse Reddit with your own Reddit session: feeds, posts, comments, votes, saves and inbox.",
   "lang": "en",
   "start_url": "./",

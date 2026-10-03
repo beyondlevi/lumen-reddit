@@ -59,6 +59,7 @@ describe('RedditClient', () => {
   it('classifies failures', async () => {
     const {fetchImpl} = fakeFetch([{status: 401}, {status: 403}, {status: 404}, {status: 503}, new TypeError('offline')]);
     const client = new RedditClient('t', 'https://oauth.example', fetchImpl);
+    client.networkRetryDelays = [];
     const kinds: string[] = [];
     for (let i = 0; i < 5; i += 1) {
       await client.account().catch((error: RedditError) => kinds.push(error.kind));
@@ -85,5 +86,26 @@ describe('RedditClient', () => {
     const client = new RedditClient('t', 'https://oauth.example', fetchImpl);
     await client.account();
     await expect(client.account()).rejects.toMatchObject({kind: 'ratelimit', retryAfter: 30});
+  });
+
+  it('repeats a request that found no network, as the glasses bring the phone internet up', async () => {
+    const {calls, fetchImpl} = fakeFetch([new TypeError('offline'), new TypeError('offline'), {body: ME}]);
+    const client = new RedditClient('t', 'https://oauth.example', fetchImpl);
+    client.networkRetryDelays = [1, 1, 1];
+    await expect(client.account()).resolves.toEqual({name: 'someone', inboxCount: 4});
+    expect(calls).toHaveLength(3);
+  });
+
+  it('gives up on the network after its retries, and never repeats an answer from Reddit', async () => {
+    const offline = fakeFetch([new TypeError('a'), new TypeError('b'), new TypeError('c')]);
+    const client = new RedditClient('t', 'https://oauth.example', offline.fetchImpl);
+    client.networkRetryDelays = [1, 1];
+    await expect(client.account()).rejects.toMatchObject({kind: 'network'});
+    expect(offline.calls).toHaveLength(3);
+    const failing = fakeFetch([{status: 503}, {body: ME}]);
+    const other = new RedditClient('t', 'https://oauth.example', failing.fetchImpl);
+    other.networkRetryDelays = [1, 1];
+    await expect(other.account()).rejects.toMatchObject({kind: 'server'});
+    expect(failing.calls).toHaveLength(1);
   });
 });

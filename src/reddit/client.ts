@@ -78,6 +78,17 @@ export type RateLimit = {remaining: number; resetAt: number};
  */
 export const RATE_LIMIT_RESERVE = 3;
 
+/**
+ * Waits before repeating a request that never reached anyone (no network).
+ * On the glasses an offline app opens at once and its internet (the phone's)
+ * comes up behind it, which takes up to half a minute; these cover that, and
+ * the screen keeps loading meanwhile. A failure that reached Reddit is never
+ * repeated here.
+ */
+export const NETWORK_RETRY_DELAYS_MS = [2000, 4000, 8000, 15000];
+
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export class RedditClient implements RedditApi {
   private readonly credentials: Credentials;
   private readonly base: string;
@@ -110,7 +121,24 @@ export class RedditClient implements RedditApi {
     return Math.max(1, Math.ceil((limit.resetAt - Date.now()) / 1000));
   }
 
+  /** Retry delays for network failures; tests set []. */
+  networkRetryDelays: readonly number[] = NETWORK_RETRY_DELAYS_MS;
+
   private async request(url: string, init: RequestInit = {}, renewed = false): Promise<unknown> {
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        return await this.attempt(url, init, renewed);
+      } catch (error) {
+        const delay = this.networkRetryDelays[attempt];
+        if (!(error instanceof RedditError) || error.kind !== 'network' || delay == null) {
+          throw error;
+        }
+        await wait(delay);
+      }
+    }
+  }
+
+  private async attempt(url: string, init: RequestInit, renewed: boolean): Promise<unknown> {
     // Votes and saves may use the reserve; reading may not.
     const wait = this.waitForWindow(init.method === 'POST' ? 1 : RATE_LIMIT_RESERVE);
     if (wait != null) {
