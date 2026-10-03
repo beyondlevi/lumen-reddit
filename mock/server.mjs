@@ -7,6 +7,8 @@
 //   POST /__mock/reset              clears writes, votes and the rate limit
 //   POST /__mock/ratelimit?remaining=N&reset=S
 //   POST /__mock/expire             every later request answers 401
+//   POST /__worker/token            the session Worker: X-Renew-Key MOCK_RENEW_KEY and
+//                                   body MOCK_SESSION give MOCK_TOKEN; any other session is 401
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -14,11 +16,13 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 export const MOCK_TOKEN = 'mock-session-token-for-e2e-tests-only';
 export const MOCK_PORT = 8090;
+export const MOCK_SESSION = 'mock-reddit-session-cookie-for-e2e-tests';
+export const MOCK_RENEW_KEY = 'mock-renew-key';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE',
-  'Access-Control-Allow-Headers': 'Authorization, Content-Type, X-Reddit-Web-Client',
+  'Access-Control-Allow-Headers': 'Authorization, Content-Type, X-Reddit-Web-Client, X-Renew-Key',
   'Access-Control-Expose-Headers': 'X-Ratelimit-Used, X-Ratelimit-Remaining, X-Ratelimit-Reset',
 };
 
@@ -53,6 +57,7 @@ export function startMockServer(port = MOCK_PORT, host = '127.0.0.1') {
   let writes = [];
   let limit = {remaining: 100, resetAt: Date.now() + 600_000};
   let expired = false;
+  let renewals = 0;
 
   const send = (res, status, body, headers = {}) => {
     res.writeHead(status, {'Content-Type': 'application/json; charset=UTF-8', ...headers});
@@ -69,11 +74,13 @@ export function startMockServer(port = MOCK_PORT, host = '127.0.0.1') {
     req.on('end', () => {
       if (url.pathname.startsWith('/__mock/')) {
         if (url.pathname === '/__mock/writes') return send(res, 200, writes, CORS);
+        if (url.pathname === '/__mock/renewals') return send(res, 200, {renewals}, CORS);
         if (url.pathname === '/__mock/reset') {
           responses = loadResponses(origin);
           writes = [];
           limit = {remaining: 100, resetAt: Date.now() + 600_000};
           expired = false;
+          renewals = 0;
           return send(res, 200, {ok: true}, CORS);
         }
         if (url.pathname === '/__mock/ratelimit') {
@@ -90,6 +97,13 @@ export function startMockServer(port = MOCK_PORT, host = '127.0.0.1') {
         if (!fs.existsSync(file)) return send(res, 404, {}, CORS);
         res.writeHead(200, {'Content-Type': 'image/webp'});
         return fs.createReadStream(file).pipe(res);
+      }
+      if (url.pathname === '/__worker/token' && req.method === 'POST') {
+        if (req.headers['x-renew-key'] !== MOCK_RENEW_KEY) return send(res, 403, {error: 'bad_key'}, CORS);
+        if (body.trim() !== MOCK_SESSION) return send(res, 401, {error: 'session_rejected'}, CORS);
+        renewals += 1;
+        expired = false;
+        return send(res, 200, {token: MOCK_TOKEN, expiresAt: Date.now() + 86_400_000}, CORS);
       }
       if (req.method === 'OPTIONS') {
         res.writeHead(200, CORS);

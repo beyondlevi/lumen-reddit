@@ -8,6 +8,7 @@ const FAILURE_REASONS: Record<RedditErrorKind, StringKey> = {
   notfound: 'reasonNotFound',
   forbidden: 'reasonForbidden',
   server: 'reasonServer',
+  renewal: 'reasonRenewal',
 };
 
 /** Short reason for a failed request, for toasts. */

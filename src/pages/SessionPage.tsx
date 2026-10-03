@@ -23,7 +23,9 @@ export function SessionPage({phase}: {phase: Exclude<Phase, {kind: 'ready'}>}) {
   };
   const [title, body] =
     phase.kind === 'expired'
-      ? [t('expiredTitle'), t('expiredBody')]
+      ? phase.renewing
+        ? [t('sessionEndedTitle'), t('sessionEndedBody')]
+        : [t('expiredTitle'), t('expiredBody')]
       : phase.kind === 'invalid'
         ? [t('setupInvalidTitle'), t('setupInvalidBody')]
         : [t('setupTitle'), t('setupBody')];

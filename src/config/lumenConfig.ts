@@ -5,20 +5,28 @@
 // the phone companion. The Reddit session is a `secret` field: it stays on the
 // glasses and is never bundled, logged or typed in the app.
 //
-// The session is the `token_v2` cookie of a signed-in reddit.com browser
-// session. It is accepted as the bare value, as `token_v2=<value>`, or as a
-// whole pasted Cookie header; only token_v2 is kept. It is sent as a Bearer
-// token to oauth.reddit.com.
+// Two cookies of a signed-in reddit.com browser session can be set:
+// - `reddit.token`: token_v2, sent as a Bearer token to oauth.reddit.com. It
+//   lives about 24 hours.
+// - `reddit.session`: reddit_session (about 180 days), with `reddit.renewUrl`
+//   and `reddit.renewKey`: the session Worker (worker/index.mjs) turns it into
+//   a fresh token_v2 whenever one is needed, so the app keeps working without
+//   pasting token_v2 every day. With these three, `reddit.token` is optional.
+// Each cookie is accepted as the bare value, as `name=<value>`, or inside a
+// whole pasted Cookie header; only the named cookie is kept.
 //
 // In a regular browser (development only) `window.lumen` does not exist, so the
-// values come from `?reddit.token=…` (and `?reddit.api=…` to point the app at a
-// mock server) and are kept in localStorage. The parameters are removed from
-// the address bar right after they are read.
+// values come from `?reddit.token=…` (and the other keys, plus `?reddit.api=…`
+// to point the app at a mock server) and are kept in localStorage. The
+// parameters are removed from the address bar right after they are read.
 //
 // Demo mode: the optional `demo` field set to exactly `demo-captures` replaces
 // Reddit with built-in fictional content (src/demo).
 
 export const TOKEN_KEY = 'reddit.token';
+export const SESSION_KEY = 'reddit.session';
+export const RENEW_URL_KEY = 'reddit.renewUrl';
+export const RENEW_KEY_KEY = 'reddit.renewKey';
 /** Development and test only: another API origin (a mock server). Not in the manifest. */
 export const API_BASE_KEY = 'reddit.api';
 /** Optional `lumen_config` field that turns on demo mode. */
@@ -27,16 +35,27 @@ export const DEMO_KEY = 'demo';
 export const DEMO_ACTIVATION = 'demo-captures';
 export const DEFAULT_API_BASE = 'https://oauth.reddit.com';
 
-const URL_KEYS: readonly string[] = [TOKEN_KEY, API_BASE_KEY, DEMO_KEY];
+const URL_KEYS: readonly string[] = [TOKEN_KEY, SESSION_KEY, RENEW_URL_KEY, RENEW_KEY_KEY, API_BASE_KEY, DEMO_KEY];
 
 export type ConfigValues = Record<string, string>;
 
+/** What turns reddit_session into a fresh token_v2. */
+export type Renewal = {
+  /** The Worker's `/token` address. */
+  url: string;
+  key: string;
+  session: string;
+};
+
 export type RedditConfig = {
-  token: string;
+  /** token_v2 as set on the phone; null when only renewal is configured. */
+  token: string | null;
   /** API origin without a trailing slash. */
   apiBase: string;
-  /** Expiry of the session from the token itself, in ms since the epoch, when it says. */
+  /** Expiry of `token` from the token itself, in ms since the epoch, when it says. */
   expiresAt: number | null;
+  /** Set when reddit_session, the Worker address and its key are all there. */
+  renewal: Renewal | null;
 };
 
 export type ConfigState =
@@ -174,20 +193,20 @@ export function isDemoActivation(values: ConfigValues | null | undefined): boole
 const TOKEN_CHARS = /^[A-Za-z0-9._~+/=-]+$/;
 
 /**
- * Extracts the token_v2 value from what was pasted: the bare value,
- * `token_v2=<value>`, or a Cookie header with other cookies around it.
+ * Extracts one cookie's value from what was pasted: the bare value,
+ * `<name>=<value>`, or a Cookie header with other cookies around it.
  * Returns null when nothing usable is there.
  */
-export function extractToken(raw: string | null | undefined): string | null {
+export function extractCookie(raw: string | null | undefined, name: string): string | null {
   if (typeof raw !== 'string') {
     return null;
   }
   let value = raw.trim().replace(/^cookie:\s*/i, '');
-  const named = /(?:^|[;\s])token_v2=([^;\s]+)/.exec(value);
+  const named = new RegExp(`(?:^|[;\\s])${name}=([^;\\s]+)`).exec(value);
   if (named) {
     value = named[1];
   } else if (value.includes('=') && value.includes(';')) {
-    // Other cookies but no token_v2.
+    // Other cookies but not this one.
     return null;
   }
   value = value.replace(/^["']|["']$/g, '').replace(/^bearer\s+/i, '');
@@ -197,6 +216,11 @@ export function extractToken(raw: string | null | undefined): string | null {
     // Not URL-encoded.
   }
   return value.length >= 20 && TOKEN_CHARS.test(value) ? value : null;
+}
+
+/** The token_v2 value from what was pasted (see extractCookie). */
+export function extractToken(raw: string | null | undefined): string | null {
+  return extractCookie(raw, 'token_v2');
 }
 
 /** The `exp` claim of a JWT-shaped token, in ms, or null. Never throws. */
@@ -216,11 +240,8 @@ export function tokenExpiry(token: string): number | null {
   }
 }
 
-function apiBaseFrom(values: ConfigValues | null | undefined): string | null {
-  const raw = values?.[API_BASE_KEY]?.trim();
-  if (!raw) {
-    return DEFAULT_API_BASE;
-  }
+/** An http(s) address without a trailing slash, or null. */
+function httpUrl(raw: string): string | null {
   try {
     const url = new URL(raw);
     if (url.protocol !== 'http:' && url.protocol !== 'https:') {
@@ -232,20 +253,59 @@ function apiBaseFrom(values: ConfigValues | null | undefined): string | null {
   }
 }
 
+function apiBaseFrom(values: ConfigValues | null | undefined): string | null {
+  const raw = values?.[API_BASE_KEY]?.trim();
+  return raw ? httpUrl(raw) : DEFAULT_API_BASE;
+}
+
+/** The session only travels over HTTPS (plain HTTP only to this device, for tests). */
+function secureUrl(raw: string): string | null {
+  const url = httpUrl(raw);
+  if (url == null) {
+    return null;
+  }
+  const {protocol, hostname} = new URL(url);
+  return protocol === 'https:' || hostname === '127.0.0.1' || hostname === 'localhost' ? url : null;
+}
+
+const read = (values: ConfigValues | null | undefined, key: string): string => {
+  const value = values?.[key];
+  return typeof value === 'string' ? value.trim() : '';
+};
+
 export function parseConfig(values: ConfigValues | null | undefined): ConfigState {
   if (isDemoActivation(values)) {
     return {status: 'demo'};
   }
-  const raw = values?.[TOKEN_KEY];
-  if (typeof raw !== 'string' || raw.trim() === '') {
+  const rawToken = read(values, TOKEN_KEY);
+  const rawSession = read(values, SESSION_KEY);
+  const rawRenewUrl = read(values, RENEW_URL_KEY);
+  const rawRenewKey = read(values, RENEW_KEY_KEY);
+  const anyRenewal = rawSession !== '' || rawRenewUrl !== '' || rawRenewKey !== '';
+  if (rawToken === '' && !anyRenewal) {
     return {status: 'missing'};
   }
-  const token = extractToken(raw);
+
+  const token = rawToken === '' ? null : extractToken(rawToken);
   const apiBase = apiBaseFrom(values);
-  if (token == null || apiBase == null) {
+  if ((rawToken !== '' && token == null) || apiBase == null) {
     return {status: 'invalid'};
   }
-  return {status: 'ready', config: {token, apiBase, expiresAt: tokenExpiry(token)}};
+
+  let renewal: Renewal | null = null;
+  if (anyRenewal) {
+    const session = extractCookie(rawSession, 'reddit_session');
+    const url = secureUrl(rawRenewUrl);
+    if (session == null || url == null || rawRenewKey === '') {
+      // Partly set: without a token there is nothing to run on.
+      if (token == null) {
+        return rawSession === '' || rawRenewUrl === '' || rawRenewKey === '' ? {status: 'missing'} : {status: 'invalid'};
+      }
+    } else {
+      renewal = {url, key: rawRenewKey, session};
+    }
+  }
+  return {status: 'ready', config: {token, apiBase, expiresAt: token ? tokenExpiry(token) : null, renewal}};
 }
 
 export function sameConfig(a: ConfigState, b: ConfigState): boolean {
@@ -253,7 +313,15 @@ export function sameConfig(a: ConfigState, b: ConfigState): boolean {
     return false;
   }
   if (a.status === 'ready' && b.status === 'ready') {
-    return a.config.token === b.config.token && a.config.apiBase === b.config.apiBase;
+    const x = a.config.renewal;
+    const y = b.config.renewal;
+    return (
+      a.config.token === b.config.token &&
+      a.config.apiBase === b.config.apiBase &&
+      x?.url === y?.url &&
+      x?.key === y?.key &&
+      x?.session === y?.session
+    );
   }
   return true;
 }

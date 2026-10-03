@@ -14,7 +14,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {unzipSync} from 'fflate';
 import {chromium, firefox} from 'playwright';
-import {MOCK_PORT, MOCK_TOKEN, startMockServer} from '../../mock/server.mjs';
+import {MOCK_PORT, MOCK_RENEW_KEY, MOCK_SESSION, MOCK_TOKEN, startMockServer} from '../../mock/server.mjs';
 import {startStaticServer} from './static-server.mjs';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
@@ -73,6 +73,13 @@ async function openApp(browser, name, config, appUrl = APP) {
 }
 
 const session = {'reddit.token': `token_v2=${MOCK_TOKEN}`, 'reddit.api': MOCK};
+const renewal = {
+  'reddit.session': `reddit_session=${MOCK_SESSION}`,
+  'reddit.renewUrl': `${MOCK}/__worker/token`,
+  'reddit.renewKey': MOCK_RENEW_KEY,
+  'reddit.api': MOCK,
+};
+const renewals = () => mock('/__mock/renewals', 'GET').then(body => body.renewals);
 
 const scenarios = {
   async 'sign-in screen without a session'(browser, name) {
@@ -211,6 +218,33 @@ const scenarios = {
     await waitText(expired.page, 'Session expired');
     await expired.shot('expired');
     await expired.context.close();
+  },
+
+  async 'renewal: reddit_session alone signs in'(browser, name) {
+    await mock('/__mock/reset');
+    const {page, context, errors, shot} = await openApp(browser, name, renewal);
+    await waitText(page, 'Which glasses are you actually wearing');
+    await shot('home');
+    assert.equal(await renewals(), 1);
+    assert.deepEqual(errors, []);
+    await context.close();
+  },
+
+  async 'renewal: a rejected token_v2 is replaced and the request repeated'(browser, name) {
+    await mock('/__mock/reset');
+    const {page, context} = await openApp(browser, name, {...renewal, 'reddit.token': 'token_v2=stale-token-value-from-yesterday'});
+    await waitText(page, 'Which glasses are you actually wearing');
+    // Two requests (account, Home) met the stale token; they shared one renewal.
+    assert.equal(await renewals(), 1);
+    await context.close();
+  },
+
+  async 'renewal: an ended reddit_session asks to sign in again'(browser, name) {
+    await mock('/__mock/reset');
+    const {page, context, shot} = await openApp(browser, name, {...renewal, 'reddit.session': 'reddit_session=an-ended-session-value-xxxx'});
+    await waitText(page, 'Signed out of Reddit');
+    await shot('ended');
+    await context.close();
   },
 
   async 'offline package in demo mode'(browser, name) {

@@ -9,9 +9,10 @@ import {
   parseSubreddits,
   parseThread,
 } from './parse';
+import {fixedToken, type Credentials} from './session';
 import type {Account, FeedSort, InboxItem, Listing, Post, Subreddit, Thread, Vote} from './types';
 
-export type RedditErrorKind = 'network' | 'auth' | 'ratelimit' | 'notfound' | 'forbidden' | 'server';
+export type RedditErrorKind = 'network' | 'auth' | 'ratelimit' | 'notfound' | 'forbidden' | 'server' | 'renewal';
 
 export class RedditError extends Error {
   readonly kind: RedditErrorKind;
@@ -78,13 +79,13 @@ export type RateLimit = {remaining: number; resetAt: number};
 export const RATE_LIMIT_RESERVE = 3;
 
 export class RedditClient implements RedditApi {
-  private readonly token: string;
+  private readonly credentials: Credentials;
   private readonly base: string;
   private readonly fetchImpl: FetchLike;
   rateLimit: RateLimit | null = null;
 
-  constructor(token: string, base: string, fetchImpl: FetchLike = (input, init) => fetch(input, init)) {
-    this.token = token;
+  constructor(credentials: Credentials | string, base: string, fetchImpl: FetchLike = (input, init) => fetch(input, init)) {
+    this.credentials = typeof credentials === 'string' ? fixedToken(credentials) : credentials;
     this.base = base.replace(/\/+$/, '');
     this.fetchImpl = fetchImpl;
   }
@@ -109,12 +110,13 @@ export class RedditClient implements RedditApi {
     return Math.max(1, Math.ceil((limit.resetAt - Date.now()) / 1000));
   }
 
-  private async request(url: string, init: RequestInit = {}): Promise<unknown> {
+  private async request(url: string, init: RequestInit = {}, renewed = false): Promise<unknown> {
     // Votes and saves may use the reserve; reading may not.
     const wait = this.waitForWindow(init.method === 'POST' ? 1 : RATE_LIMIT_RESERVE);
     if (wait != null) {
       throw new RedditError('ratelimit', 429, wait);
     }
+    const token = renewed ? await this.credentials.renew() : await this.credentials.token();
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
     let response: Response;
@@ -123,7 +125,7 @@ export class RedditClient implements RedditApi {
         ...init,
         signal: controller.signal,
         credentials: 'omit',
-        headers: {Authorization: `Bearer ${this.token}`, ...(init.headers ?? {})},
+        headers: {Authorization: `Bearer ${token}`, ...(init.headers ?? {})},
       });
     } catch {
       // A 429 arrives without CORS headers and looks like a network failure.
@@ -133,6 +135,10 @@ export class RedditClient implements RedditApi {
       clearTimeout(timer);
     }
     this.readRateLimit(response.headers);
+    // A rejected token is renewed once, then the request goes again.
+    if (response.status === 401 && !renewed && this.credentials.canRenew) {
+      return this.request(url, init, true);
+    }
     if (!response.ok) {
       throw this.errorFor(response);
     }

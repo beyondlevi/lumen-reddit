@@ -1,7 +1,8 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import type {RedditApi} from '../reddit/client';
 import type {Account, InboxItem, Subreddit} from '../reddit/types';
 import {asRedditError, emptyCollection, type CollectionState, type Runner} from './storeTypes';
+import {useSessionChange} from './useSessionChange';
 
 export type AccountStore = {
   subscriptions: CollectionState<Subreddit>;
@@ -24,10 +25,10 @@ export function useAccountStore(
   const [subscriptions, setSubscriptions] = useState<CollectionState<Subreddit>>(emptyCollection);
   const [inbox, setInbox] = useState<CollectionState<InboxItem>>(emptyCollection);
 
-  useEffect(() => {
+  useSessionChange(api, () => {
     setSubscriptions(emptyCollection());
     setInbox(emptyCollection());
-  }, [api]);
+  });
 
   const loadSubscriptions = useCallback(
     (options: {refresh?: boolean} = {}) => {

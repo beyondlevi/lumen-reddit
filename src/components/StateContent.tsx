@@ -19,6 +19,8 @@ export function errorCopy(error: RedditError | null): [string, string] {
       return [t('errForbiddenTitle'), t('errForbiddenBody')];
     case 'auth':
       return [t('expiredTitle'), t('expiredBody')];
+    case 'renewal':
+      return [t('renewalFailedTitle'), t('renewalFailedBody')];
     default:
       return [t('errServerTitle'), t('errServerBody')];
   }

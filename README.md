@@ -25,22 +25,54 @@ It browses Reddit with the wearer's own Reddit session.
 
 ## The Reddit session
 
-The app signs in with the `token_v2` cookie of a signed-in reddit.com browser session, set in the
-companion's Apps tab as the `reddit.token` secret (it stays on the glasses). The field takes the bare
-value, `token_v2=<value>`, or a whole pasted Cookie header; only `token_v2` is kept.
+The app runs on two cookies of a signed-in reddit.com browser session, set in the companion's Apps tab
+(secrets stay on the glasses; each field takes the bare value, `name=<value>`, or a whole pasted Cookie
+header):
 
-The token goes as `Authorization: Bearer <token_v2>` straight to `https://oauth.reddit.com`, which allows
-cross-origin requests with that header (`Access-Control-Allow-Origin: *`), so no proxy is needed. The app
-never puts it in a URL, a log line or an error.
+| Field | What | Lasts |
+| --- | --- | --- |
+| `reddit.session` | the `reddit_session` cookie | about 180 days |
+| `reddit.renewUrl` | the session Worker's address, `https://lumen-reddit-session.<subdomain>.workers.dev/token` | |
+| `reddit.renewKey` | the Worker's `RENEW_KEY` | |
+| `reddit.token` | the `token_v2` cookie (optional with the three above) | about 24 hours |
 
-To copy it: on a computer, sign in to reddit.com, open the developer tools, Application (Chrome) or Storage
-(Firefox), Cookies, `https://www.reddit.com`, and copy the value of `token_v2`.
+Every Reddit request goes as `Authorization: Bearer <token_v2>` straight to `https://oauth.reddit.com`, which
+allows cross-origin requests with that header, so feeds, votes and saves need no proxy. When there is no
+token_v2, or it ends within ten minutes, or Reddit rejects it, the app asks the **session Worker** for a
+new one (one renewal at a time, shared by every waiting request) and repeats the rejected request once.
+Opening the app with only `reddit.session` costs three requests: the renewal, the account and Home.
+
+### Why a Worker
+
+A browser cannot send a Cookie header, and the only way to get a token_v2 from reddit_session is the way
+reddit.com's own pages get it: loading `https://www.reddit.com/` with the `reddit_session` cookie makes
+Reddit answer with a fresh `token_v2` cookie. `worker/index.mjs` does exactly that, from Cloudflare, and
+returns `{token, expiresAt}`; it reads only the response headers, keeps nothing and logs nothing.
+(reddit-feed-even, the Even Realities client this app started from, doesn't renew anything: it sends both
+cookies through its own Worker to www.reddit.com's JSON endpoints. From Cloudflare those endpoints answer
+a cookie-authenticated request with a 403 "Blocked" page, while the HTML page above is served.) Official
+OAuth apps would avoid all this, but since November 2025 Reddit only issues them after a manual review.
+
+Measured on 2026-10-03 from Cloudflare: www.reddit.com with reddit_session → 200 and a new token_v2
+valid 24 hours; that token on oauth.reddit.com → 200.
+
+Deploy (the token needs the "Edit Cloudflare Workers" template; the account needs a workers.dev subdomain):
+
+```sh
+CLOUDFLARE_API_TOKEN=… CLOUDFLARE_ACCOUNT_ID=… RENEW_KEY=$(openssl rand -base64 32) node scripts/deploy-worker.mjs
+```
+
+The key keeps the Worker from being anyone's reddit_session-to-token service; put the same value in
+`reddit.renewKey`. Without `RENEW_KEY` the script redeploys the code and keeps the key.
+
+To copy the cookies: on a computer, sign in to reddit.com, open the developer tools, Application (Chrome) or
+Storage (Firefox), Cookies, `https://www.reddit.com`, and copy `reddit_session` (and `token_v2` if wanted).
 
 Limits to know:
 
-- **A token_v2 lives about 24 hours** (its `exp` claim). Reddit's own site renews it in the browser, which an
-  app on the glasses cannot do. The app warns (a toast at launch) when less than two hours are left, and
-  shows **Session expired** once Reddit answers 401; paste a fresh value on the phone, then **Check again**.
+- **reddit_session ends after about 180 days** (its `exp` claim), or when you sign out on reddit.com. The app
+  then shows **Signed out of Reddit**: copy reddit_session again. With only `reddit.token`, the token ends
+  after a day; the app warns when less than two hours are left and shows **Session expired** after.
 - **Rate limit**: about 100 requests per 10 minutes for the session. Reddit answers an exhausted window with a
   429 that has no CORS headers, which a browser sees as a network failure, so the client stops with a
   reserve of three requests (votes and saves may still use it) and shows **Too many requests** with the
@@ -48,13 +80,15 @@ Limits to know:
 - **Blocked user agents**: Reddit answers `HeadlessChrome` with a 403 "Blocked" page (no CORS headers). This
   only matters for automated runs against the real API: use Firefox or a regular Chrome user agent there.
   GeckoView on the glasses is not affected.
+- If Reddit starts blocking Cloudflare's network for the HTML page too, the Worker answers 502 `blocked` and
+  the app shows **Can't renew the session**; a pasted `reddit.token` still works for its day.
 - Videos do not play on the glasses (the post says so); galleries show their first picture.
 - Writing comments, voting on polls and the "load more comments" stubs are not in this version.
 
 ## Manifest
 
-`public/manifest.webmanifest` declares `lumen_internet` and the `lumen_config` fields: `reddit.token`
-(`secret`) and `demo` (optional). With `demo` set to exactly `demo-captures`, the app answers from
+`public/manifest.webmanifest` declares `lumen_internet` and the `lumen_config` fields above (all
+optional; the app tells what is missing) and `demo`. With `demo` set to exactly `demo-captures`, the app answers from
 fictional content (`src/demo/fixtures.json`, illustrated pictures in `src/demo/assets/`), in English,
 for screenshots and videos. Votes, saves and read marks then change only that in-memory copy.
 
@@ -75,6 +109,7 @@ in localStorage (the parameters are removed from the address bar):
 ```text
 http://localhost:5173/?demo=demo-captures
 http://localhost:5173/?reddit.token=<token_v2>
+http://localhost:5173/?reddit.session=<reddit_session>&reddit.renewUrl=<worker>/token&reddit.renewKey=<key>
 http://localhost:5173/?reddit.token=mock-session-token-for-e2e-tests-only&reddit.api=http://127.0.0.1:8090
 ```
 
@@ -87,14 +122,15 @@ The UI Toolkit's checks pass on this source: `validate-app-structure.mjs src` (s
 
 ```text
 src/config/lumenConfig.ts   the lumen_config contract: token parsing, expiry, dev fallback, demo switch
-src/reddit/                 client (Bearer, errors, rate limit), parsers, markdown to text, models
+src/reddit/                 client (Bearer, errors, rate limit), session renewal, parsers, markdown, models
 src/state/                  session (client, account, request runner), posts/feeds/threads, inbox/communities
 src/RedditProvider.tsx      one store around the page transitions
 src/pages/                  HomePage (tabs), FeedPosts, CommunitiesTab, InboxTab, SubredditPage,
                             PostPage, CommentsPage, CommentPage, MessagePage, PhotoPage, SessionPage
 src/components/             state content (empty, error, loading), vote buttons, avatar fallback
 src/demo/                   demo client, fixtures and pictures (also served by the mock)
-mock/server.mjs             oauth.reddit.com stand-in for the e2e tests
+worker/index.mjs            the session Worker (Cloudflare); scripts/deploy-worker.mjs deploys it
+mock/server.mjs             oauth.reddit.com and Worker stand-in for the e2e tests
 tests/unit, tests/e2e       vitest and Playwright
 ```
 

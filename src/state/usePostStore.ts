@@ -1,7 +1,7 @@
 import {Toast} from '@wearables-ui-toolkit/mrbd';
 import bookmarkFilled from '@wearables-ui-toolkit/icons/svg/bookmark__filled.svg';
 import circleAlertFilled from '@wearables-ui-toolkit/icons/svg/circlealert__filled.svg';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useRef, useState} from 'react';
 import {failureReason} from '../failure';
 import {t} from '../i18n/strings';
 import {feedKey, type FeedSource, type RedditApi} from '../reddit/client';
@@ -17,6 +17,7 @@ import {
   type Runner,
   type ThreadState,
 } from './storeTypes';
+import {useSessionChange} from './useSessionChange';
 
 export type PostStore = {
   post(id: string): Post | null;
@@ -41,11 +42,11 @@ export function usePostStore(api: RedditApi | null, run: Runner): PostStore {
   threadsRef.current = threads;
 
   // Nothing from another session lingers.
-  useEffect(() => {
+  useSessionChange(api, () => {
     setPosts({});
     setFeeds({});
     setThreads({});
-  }, [api]);
+  });
 
   const storePosts = useCallback((items: Post[]) => {
     setPosts(previous => {

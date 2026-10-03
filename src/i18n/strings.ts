@@ -34,14 +34,19 @@ const en = {
   setupLabel: 'Sign in required',
   setupTitle: 'Sign in on your phone',
   setupBody:
-    'Open Rokid Lumen on your phone, go to Apps, Reddit, and paste your Reddit session: the token_v2 cookie of reddit.com, signed in.',
+    'Open Rokid Lumen on your phone, go to Apps, Reddit, and paste your Reddit session: the reddit_session cookie of reddit.com, signed in, with the renewal address and key. A token_v2 cookie alone also works, for a day.',
   setupInvalidTitle: 'That session looks wrong',
   setupInvalidBody:
-    'The saved value is not a token_v2 cookie. Copy token_v2 from reddit.com, signed in, and paste it in Rokid Lumen on your phone.',
+    'A saved value is not what the app expects: check the reddit_session or token_v2 cookie and the renewal address (https) in Rokid Lumen on your phone.',
   setupStillMissing: 'Still missing',
   expiredTitle: 'Session expired',
   expiredBody:
     'Reddit ended this session. Copy a new token_v2 cookie from reddit.com and paste it in Rokid Lumen on your phone.',
+  sessionEndedTitle: 'Signed out of Reddit',
+  sessionEndedBody:
+    'Your reddit_session ended (it lasts about six months) or you signed out on reddit.com. Sign in there, copy reddit_session again and paste it in Rokid Lumen on your phone.',
+  renewalFailedTitle: "Can't renew the session",
+  renewalFailedBody: 'The renewal service did not answer as expected. Check its address and key in Rokid Lumen on your phone, then try again.',
   sessionEnding: 'Session ends in {time}',
   sessionEndingMeta: 'Renew on your phone',
 
@@ -67,6 +72,7 @@ const en = {
   reasonServer: 'Reddit error',
   reasonForbidden: 'not allowed',
   reasonNotFound: 'not found',
+  reasonRenewal: 'session renewal failed',
   voteFailed: 'Vote not sent',
   saveFailed: 'Not saved',
   saved: 'Saved',
@@ -169,14 +175,19 @@ const pt: Strings = {
   setupLabel: 'É preciso entrar',
   setupTitle: 'Entre pelo celular',
   setupBody:
-    'Abra o Rokid Lumen no celular, vá em Apps, Reddit, e cole sua sessão do Reddit: o cookie token_v2 do reddit.com, já logado.',
+    'Abra o Rokid Lumen no celular, vá em Apps, Reddit, e cole sua sessão do Reddit: o cookie reddit_session do reddit.com, já logado, com o endereço e a chave de renovação. Só o cookie token_v2 também funciona, por um dia.',
   setupInvalidTitle: 'Essa sessão parece errada',
   setupInvalidBody:
-    'O valor salvo não é um cookie token_v2. Copie o token_v2 do reddit.com, já logado, e cole no Rokid Lumen do celular.',
+    'Um valor salvo não é o que o app espera: confira o cookie reddit_session ou token_v2 e o endereço de renovação (https) no Rokid Lumen do celular.',
   setupStillMissing: 'Ainda falta',
   expiredTitle: 'Sessão expirada',
   expiredBody:
     'O Reddit encerrou esta sessão. Copie um novo cookie token_v2 do reddit.com e cole no Rokid Lumen do celular.',
+  sessionEndedTitle: 'Você saiu do Reddit',
+  sessionEndedBody:
+    'Seu reddit_session acabou (dura uns seis meses) ou você saiu da conta no reddit.com. Entre de novo lá, copie o reddit_session e cole no Rokid Lumen do celular.',
+  renewalFailedTitle: 'Não foi possível renovar a sessão',
+  renewalFailedBody: 'O serviço de renovação não respondeu como esperado. Confira o endereço e a chave dele no Rokid Lumen do celular e tente de novo.',
   sessionEnding: 'A sessão acaba em {time}',
   sessionEndingMeta: 'Renove no celular',
 
@@ -202,6 +213,7 @@ const pt: Strings = {
   reasonServer: 'erro do Reddit',
   reasonForbidden: 'não permitido',
   reasonNotFound: 'não encontrado',
+  reasonRenewal: 'falha ao renovar a sessão',
   voteFailed: 'Voto não enviado',
   saveFailed: 'Não salvo',
   saved: 'Salvo',

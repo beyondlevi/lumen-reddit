@@ -32,6 +32,40 @@ describe('tokenExpiry', () => {
   });
 });
 
+describe('parseConfig with renewal', () => {
+  const renewal = {
+    'reddit.session': 'reddit_session=session-cookie-value-xxxxxxxx',
+    'reddit.renewUrl': 'https://lumen-reddit-session.example.workers.dev/token',
+    'reddit.renewKey': 'key',
+  };
+
+  it('runs on reddit_session alone, without token_v2', () => {
+    expect(parseConfig(renewal)).toEqual({
+      status: 'ready',
+      config: {
+        token: null,
+        apiBase: DEFAULT_API_BASE,
+        expiresAt: null,
+        renewal: {url: 'https://lumen-reddit-session.example.workers.dev/token', key: 'key', session: 'session-cookie-value-xxxxxxxx'},
+      },
+    });
+  });
+
+  it('keeps a pasted token_v2 as the first token', () => {
+    const state = parseConfig({...renewal, 'reddit.token': TOKEN});
+    expect(state.status === 'ready' && [state.config.token, state.config.renewal != null]).toEqual([TOKEN, true]);
+  });
+
+  it('needs all three renewal values, and HTTPS', () => {
+    expect(parseConfig({'reddit.session': renewal['reddit.session']})).toEqual({status: 'missing'});
+    expect(parseConfig({...renewal, 'reddit.renewUrl': 'http://example.com/token'})).toEqual({status: 'invalid'});
+    expect(parseConfig({...renewal, 'reddit.renewUrl': 'http://127.0.0.1:8090/__worker/token'}).status).toBe('ready');
+    // A token still runs while the renewal is half set.
+    const half = parseConfig({'reddit.token': TOKEN, 'reddit.session': renewal['reddit.session']});
+    expect(half.status === 'ready' && half.config.renewal).toBeNull();
+  });
+});
+
 describe('parseConfig', () => {
   it('needs a session', () => {
     expect(parseConfig({})).toEqual({status: 'missing'});
@@ -42,7 +76,7 @@ describe('parseConfig', () => {
   it('is ready with the default API origin', () => {
     expect(parseConfig({'reddit.token': `token_v2=${TOKEN}`})).toEqual({
       status: 'ready',
-      config: {token: TOKEN, apiBase: DEFAULT_API_BASE, expiresAt: 1791043637500},
+      config: {token: TOKEN, apiBase: DEFAULT_API_BASE, expiresAt: 1791043637500, renewal: null},
     });
   });
 
