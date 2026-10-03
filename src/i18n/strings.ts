@@ -125,10 +125,7 @@ const en = {
   inboxCount_one: '{count} new',
   inboxCount_other: '{count} new',
 
-  timeNow: 'now',
-  timeMinutes: '{n}m',
-  timeHours: '{n}h',
-  timeDays: '{n}d',
+  yesterday: 'Yesterday',
   durationMinutes_one: '{count} minute',
   durationMinutes_other: '{count} minutes',
   durationHours_one: '{count} hour',
@@ -263,10 +260,7 @@ const pt: Strings = {
   inboxCount_one: '{count} nova',
   inboxCount_other: '{count} novas',
 
-  timeNow: 'agora',
-  timeMinutes: '{n} min',
-  timeHours: '{n} h',
-  timeDays: '{n} d',
+  yesterday: 'Ontem',
   durationMinutes_one: '{count} minuto',
   durationMinutes_other: '{count} minutos',
   durationHours_one: '{count} hora',

@@ -3,7 +3,7 @@ import {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {avatarFallback} from '../components/avatarFallback';
 import {ErrorContent, LoadingContent, StateContent} from '../components/StateContent';
-import {formatAge, snippet} from '../format';
+import {formatWhen, snippet} from '../format';
 import {t, tp} from '../i18n/strings';
 import {commentPath} from '../paths';
 import type {Comment} from '../reddit/types';
@@ -76,7 +76,7 @@ export function CommentsPage() {
             title={t('byAuthor', {author: comment.author})}
             subtitle={snippet(comment.body, 240) || t('deletedBody')}
             subtitleMaxLines={3}
-            timestamp={formatAge(comment.created)}
+            timestamp={formatWhen(comment.created)}
             timestampPosition={TimestampPosition.ACCESSORY_TOP}
             avatarPrimaryContent={avatarFallback(comment.author)}
             avatarAlt={comment.author}

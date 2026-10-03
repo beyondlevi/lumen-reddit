@@ -15,7 +15,7 @@ import {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {ErrorContent, LoadingContent} from '../components/StateContent';
 import {VoteButtons} from '../components/VoteRail';
-import {formatAge} from '../format';
+import {formatWhen} from '../format';
 import {t, tp} from '../i18n/strings';
 import {repliesPath} from '../paths';
 import {useReddit} from '../RedditProvider';
@@ -44,7 +44,7 @@ export function CommentPage() {
   }
 
   return (
-    <Page headerText={t('byAuthor', {author: comment.author})} headerMetadata={formatAge(comment.created)} enableSystemBarInset={false}>
+    <Page headerText={t('byAuthor', {author: comment.author})} headerMetadata={formatWhen(comment.created)} enableSystemBarInset={false}>
       <div className="action-page-shell">
         <ScrollView insetForHeader tabIndex={0} ariaLabel={t('commentLabel', {author: comment.author})}>
           <Panel width="100%">

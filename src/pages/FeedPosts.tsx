@@ -15,7 +15,7 @@ import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {avatarFallback} from '../components/avatarFallback';
 import {ErrorContent, LoadingContent, StateContent} from '../components/StateContent';
-import {cardAspect, formatAge} from '../format';
+import {cardAspect, formatWhen} from '../format';
 import {t, type StringKey} from '../i18n/strings';
 import {postPath} from '../paths';
 import type {FeedSource} from '../reddit/client';
@@ -114,7 +114,7 @@ export function FeedPosts({source: feedSource, ariaLabel, empty, showAuthor = fa
             subtitle={entry.title}
             subtitleMaxLines={2}
             secondaryIcon={entry.nsfw || entry.spoiler ? eyeSlashFilled : undefined}
-            timestamp={formatAge(entry.created)}
+            timestamp={formatWhen(entry.created)}
             timestampPosition={TimestampPosition.ACCESSORY_TOP}
             avatarSrc={icon ?? undefined}
             avatarPrimaryContent={icon ? undefined : avatarFallback(showAuthor ? entry.author : entry.subreddit)}

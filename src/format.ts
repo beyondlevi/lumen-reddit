@@ -1,29 +1,33 @@
 import {formatCount, locale, t, tp} from './i18n/strings';
 
-/** Age of a post or comment for list rows: "now", "5m", "3h", "2d", then a date. */
-export function formatAge(createdSeconds: number, now = Date.now()): string {
+const intlLocale = () => (locale === 'pt' ? 'pt-BR' : 'en-US');
+
+/**
+ * When a post, comment or message was made, as a point in time for list rows
+ * and headers: the time today, "Yesterday", the weekday within a week, then
+ * the date (with the year when it is not this one).
+ */
+export function formatWhen(createdSeconds: number, now = Date.now()): string {
   if (!createdSeconds) {
     return '';
   }
-  const seconds = Math.max(0, Math.floor(now / 1000 - createdSeconds));
-  if (seconds < 60) {
-    return t('timeNow');
-  }
-  if (seconds < 3600) {
-    return t('timeMinutes', {n: Math.floor(seconds / 60)});
-  }
-  if (seconds < 86400) {
-    return t('timeHours', {n: Math.floor(seconds / 3600)});
-  }
-  if (seconds < 7 * 86400) {
-    return t('timeDays', {n: Math.floor(seconds / 86400)});
-  }
   const date = new Date(createdSeconds * 1000);
-  const sameYear = date.getFullYear() === new Date(now).getFullYear();
-  return new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
+  const today = new Date(now);
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+  const time = date.getTime();
+  if (time >= startOfToday) {
+    return new Intl.DateTimeFormat(intlLocale(), {hour: 'numeric', minute: '2-digit'}).format(date);
+  }
+  if (time >= startOfToday - 86_400_000) {
+    return t('yesterday');
+  }
+  if (time >= startOfToday - 6 * 86_400_000) {
+    return new Intl.DateTimeFormat(intlLocale(), {weekday: 'short'}).format(date);
+  }
+  return new Intl.DateTimeFormat(intlLocale(), {
     month: 'short',
     day: 'numeric',
-    ...(sameYear ? {} : {year: 'numeric'}),
+    ...(date.getFullYear() === today.getFullYear() ? {} : {year: 'numeric'}),
   }).format(date);
 }
 
@@ -61,11 +65,11 @@ export function snippet(paragraphs: string[], max = 160): string {
   return text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text;
 }
 
-/** Card shape for a post picture: wide ones keep their shape, tall ones are cropped to a square. */
+/** Card shape for a post picture: wide ones keep their shape up to 2:1, taller ones are cropped to 4:3. */
 export function cardAspect(image: {width: number; height: number} | null): string {
   if (!image || image.height <= 0) {
     return '4 / 3';
   }
-  const ratio = Math.min(2, Math.max(1, image.width / image.height));
+  const ratio = Math.min(2, Math.max(4 / 3, image.width / image.height));
   return `${ratio.toFixed(3)} / 1`;
 }

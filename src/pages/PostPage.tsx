@@ -18,11 +18,15 @@ import {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {ErrorContent, LoadingContent} from '../components/StateContent';
 import {VoteButtons} from '../components/VoteRail';
-import {cardAspect, formatAge} from '../format';
+import {cardAspect, formatWhen} from '../format';
 import {formatCount, t, tp} from '../i18n/strings';
 import {commentsPath, picturePath} from '../paths';
 import type {Post} from '../reddit/types';
 import {useReddit} from '../RedditProvider';
+
+/** The picture fits between the page header and the action dock, with room for its focus scale. */
+const POST_PICTURE_MAX_BLOCK =
+  'calc(100vb - var(--uit-header-area-length) - var(--uit-spacing-5xl) - var(--uit-spacing-xlarge) - var(--uit-spacing-3xl))';
 
 function tags(post: Post): string[] {
   const list: string[] = [];
@@ -97,7 +101,7 @@ function PostContent({post}: {post: Post}) {
       <div className="content-inset">
         <Card
           className="post-card"
-          style={{aspectRatio: cardAspect(post.image)}}
+          style={{aspectRatio: cardAspect(post.image), maxBlockSize: POST_PICTURE_MAX_BLOCK}}
           width="100%"
           height="auto"
           aria-label={t('imageLabel', {title: post.title})}
@@ -137,7 +141,7 @@ export function PostPage() {
   }
 
   return (
-    <Page headerText={t('subredditName', {name: post.subreddit})} headerMetadata={formatAge(post.created)} enableSystemBarInset={false}>
+    <Page headerText={t('subredditName', {name: post.subreddit})} headerMetadata={formatWhen(post.created)} enableSystemBarInset={false}>
       <div className="action-page-shell">
         <PostContent post={post} />
         <div className="action-dock">

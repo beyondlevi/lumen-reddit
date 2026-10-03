@@ -9,7 +9,7 @@ import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {avatarFallback} from '../components/avatarFallback';
 import {ErrorContent, LoadingContent, StateContent} from '../components/StateContent';
-import {formatAge, snippet} from '../format';
+import {formatWhen, snippet} from '../format';
 import {t} from '../i18n/strings';
 import {messagePath} from '../paths';
 import {useReddit} from '../RedditProvider';
@@ -52,7 +52,7 @@ export function InboxTab({active = true}: {active?: boolean}) {
           title={t('byAuthor', {author: item.author})}
           subtitle={snippet(item.body) || item.subject}
           subtitleMaxLines={2}
-          timestamp={formatAge(item.created)}
+          timestamp={formatWhen(item.created)}
           timestampPosition={TimestampPosition.ACCESSORY_TOP}
           timestampTextColor={item.unread ? TimestampTextColor.ACCENT : TimestampTextColor.PRIMARY}
           avatarPrimaryContent={avatarFallback(item.author)}

@@ -1,7 +1,7 @@
 import {Button, ButtonRail, Page, Panel, ScrollView, TextColor, TextStyle, TextView} from '@wearables-ui-toolkit/mrbd';
 import {useEffect} from 'react';
 import {Navigate, useNavigate, useParams} from 'react-router-dom';
-import {formatAge} from '../format';
+import {formatWhen} from '../format';
 import {t} from '../i18n/strings';
 import {postPath} from '../paths';
 import {useReddit} from '../RedditProvider';
@@ -50,7 +50,7 @@ export function MessagePage() {
   );
 
   return (
-    <Page headerText={t('byAuthor', {author: item.author})} headerMetadata={formatAge(item.created)} enableSystemBarInset={false}>
+    <Page headerText={t('byAuthor', {author: item.author})} headerMetadata={formatWhen(item.created)} enableSystemBarInset={false}>
       {item.postId ? (
         <div className="action-page-shell">
           {content}
