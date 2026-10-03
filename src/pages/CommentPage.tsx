@@ -43,7 +43,6 @@ export function CommentPage() {
     );
   }
 
-  const replies = comment.replies.length + comment.moreReplies;
   return (
     <Page headerText={t('byAuthor', {author: comment.author})} headerMetadata={formatAge(comment.created)} enableSystemBarInset={false}>
       <div className="action-page-shell">
@@ -81,7 +80,7 @@ export function CommentPage() {
               <>
                 <ButtonDivider />
                 <Button
-                  title={tp('repliesCount', replies)}
+                  title={tp('repliesCount', comment.replies.length)}
                   icon={speechBubbleFilled}
                   alwaysShowText
                   initialFocusEligible={false}

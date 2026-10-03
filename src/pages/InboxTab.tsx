@@ -17,13 +17,16 @@ import {useReddit} from '../RedditProvider';
 const PREFETCH_ROWS = 4;
 
 /** Replies, mentions and private messages, newest first; unread ones carry the unread dot. */
-export function InboxTab() {
+export function InboxTab({active = true}: {active?: boolean}) {
   const navigate = useNavigate();
   const {inbox, loadInbox, loadMoreInbox} = useReddit();
 
+  // Loads once the tab is shown.
   useEffect(() => {
-    loadInbox();
-  }, [loadInbox]);
+    if (active) {
+      loadInbox();
+    }
+  }, [active, loadInbox]);
 
   if (inbox.status === 'error') {
     return <ErrorContent error={inbox.error} onRetry={() => loadInbox({refresh: true})} />;

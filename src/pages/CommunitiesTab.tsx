@@ -8,13 +8,16 @@ import {subredditPath} from '../paths';
 import {useReddit} from '../RedditProvider';
 
 /** The communities the account joined, A to Z. */
-export function CommunitiesTab() {
+export function CommunitiesTab({active = true}: {active?: boolean}) {
   const navigate = useNavigate();
   const {subscriptions, loadSubscriptions} = useReddit();
 
+  // Loads once the tab is shown.
   useEffect(() => {
-    loadSubscriptions();
-  }, [loadSubscriptions]);
+    if (active) {
+      loadSubscriptions();
+    }
+  }, [active, loadSubscriptions]);
 
   if (subscriptions.status === 'error') {
     return <ErrorContent error={subscriptions.error} onRetry={() => loadSubscriptions({refresh: true})} />;

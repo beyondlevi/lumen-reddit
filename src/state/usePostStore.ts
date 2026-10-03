@@ -63,7 +63,8 @@ export function usePostStore(api: RedditApi | null, run: Runner): PostStore {
     (source: FeedSource, options: {refresh?: boolean} = {}) => {
       const key = feedKey(source);
       const current = feeds[key];
-      if (!options.refresh && current && (current.status === 'ready' || current.status === 'loading')) {
+      // An error stays until the person asks again (Try again): no automatic retries.
+      if (!options.refresh && current && current.status !== 'idle') {
         return;
       }
       setFeeds(previous => ({...previous, [key]: {...(previous[key] ?? EMPTY_FEED), status: 'loading', error: null}}));
@@ -117,7 +118,7 @@ export function usePostStore(api: RedditApi | null, run: Runner): PostStore {
   const loadThread = useCallback(
     (postId: string, options: {refresh?: boolean} = {}) => {
       const current = threads[postId];
-      if (!options.refresh && current && (current.status === 'ready' || current.status === 'loading')) {
+      if (!options.refresh && current && current.status !== 'idle') {
         return;
       }
       setThreads(previous => ({...previous, [postId]: {...(previous[postId] ?? EMPTY_THREAD), status: 'loading', error: null}}));

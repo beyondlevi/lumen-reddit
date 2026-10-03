@@ -69,6 +69,14 @@ type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 /** Rate limit state from the X-Ratelimit-* headers of the last answer. */
 export type RateLimit = {remaining: number; resetAt: number};
 
+/**
+ * Requests kept in reserve: below this the client waits for the window to
+ * reset. Reddit answers an exhausted window with a 429 that carries no CORS
+ * headers, which a browser reports as a network failure, so the app has to
+ * stop before it gets there.
+ */
+export const RATE_LIMIT_RESERVE = 3;
+
 export class RedditClient implements RedditApi {
   private readonly token: string;
   private readonly base: string;
@@ -92,9 +100,20 @@ export class RedditClient implements RedditApi {
     return url.toString();
   }
 
+  /** The wait left in an exhausted window, in seconds, or null when requests may go. */
+  private waitForWindow(reserve: number): number | null {
+    const limit = this.rateLimit;
+    if (!limit || Date.now() >= limit.resetAt || limit.remaining >= reserve) {
+      return null;
+    }
+    return Math.max(1, Math.ceil((limit.resetAt - Date.now()) / 1000));
+  }
+
   private async request(url: string, init: RequestInit = {}): Promise<unknown> {
-    if (this.rateLimit && this.rateLimit.remaining < 1 && Date.now() < this.rateLimit.resetAt) {
-      throw new RedditError('ratelimit', 429, Math.ceil((this.rateLimit.resetAt - Date.now()) / 1000));
+    // Votes and saves may use the reserve; reading may not.
+    const wait = this.waitForWindow(init.method === 'POST' ? 1 : RATE_LIMIT_RESERVE);
+    if (wait != null) {
+      throw new RedditError('ratelimit', 429, wait);
     }
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -107,7 +126,9 @@ export class RedditClient implements RedditApi {
         headers: {Authorization: `Bearer ${this.token}`, ...(init.headers ?? {})},
       });
     } catch {
-      throw new RedditError('network');
+      // A 429 arrives without CORS headers and looks like a network failure.
+      const wait = this.waitForWindow(RATE_LIMIT_RESERVE + 1);
+      throw wait != null ? new RedditError('ratelimit', 429, wait) : new RedditError('network');
     } finally {
       clearTimeout(timer);
     }

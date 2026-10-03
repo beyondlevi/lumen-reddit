@@ -31,7 +31,8 @@ export function useAccountStore(
 
   const loadSubscriptions = useCallback(
     (options: {refresh?: boolean} = {}) => {
-      if (!options.refresh && (subscriptions.status === 'ready' || subscriptions.status === 'loading')) {
+      // An error stays until the person asks again (Try again): no automatic retries.
+      if (!options.refresh && subscriptions.status !== 'idle') {
         return;
       }
       setSubscriptions(previous => ({...previous, status: 'loading', error: null}));
@@ -63,7 +64,7 @@ export function useAccountStore(
 
   const loadInbox = useCallback(
     (options: {refresh?: boolean} = {}) => {
-      if (!options.refresh && (inbox.status === 'ready' || inbox.status === 'loading')) {
+      if (!options.refresh && inbox.status !== 'idle') {
         return;
       }
       setInbox(previous => ({...previous, status: 'loading', error: null}));

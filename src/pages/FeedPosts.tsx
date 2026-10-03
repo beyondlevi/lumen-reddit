@@ -63,17 +63,21 @@ type Props = {
   empty: {title: StringKey; body: StringKey};
   /** In a community's own feed the rows name the author instead of the community. */
   showAuthor?: boolean;
+  /** A pager page loads only once it is shown, so opening the app costs one feed request. */
+  active?: boolean;
 };
 
 /** A feed as its route's single vertical owner, or its loading, empty or error state. */
-export function FeedPosts({source: feedSource, ariaLabel, empty, showAuthor = false}: Props) {
+export function FeedPosts({source: feedSource, ariaLabel, empty, showAuthor = false, active = true}: Props) {
   const navigate = useNavigate();
   const {feed, loadFeed, loadMore, post} = useReddit();
   const state = feed(feedSource);
 
   useEffect(() => {
-    loadFeed(feedSource);
-  }, [loadFeed, feedSource]);
+    if (active) {
+      loadFeed(feedSource);
+    }
+  }, [active, loadFeed, feedSource]);
 
   const posts = state.ids.map(id => post(id)).filter((entry): entry is Post => entry != null);
   if (state.status === 'error' && posts.length === 0) {

@@ -31,10 +31,15 @@ export function HomePage() {
 
   return (
     <SubNavigationPager items={items} currentPageIndex={tab} onPageChange={next => setTab(next)}>
-      <FeedPosts source={HOME} ariaLabel={t('homeFeedLabel')} empty={{title: 'homeEmptyTitle', body: 'homeEmptyBody'}} />
-      <FeedPosts source={POPULAR} ariaLabel={t('popularFeedLabel')} empty={{title: 'feedEmptyTitle', body: 'feedEmptyBody'}} />
-      <CommunitiesTab />
-      <InboxTab />
+      <FeedPosts source={HOME} ariaLabel={t('homeFeedLabel')} empty={{title: 'homeEmptyTitle', body: 'homeEmptyBody'}} active={tab === 0} />
+      <FeedPosts
+        source={POPULAR}
+        ariaLabel={t('popularFeedLabel')}
+        empty={{title: 'feedEmptyTitle', body: 'feedEmptyBody'}}
+        active={tab === 1}
+      />
+      <CommunitiesTab active={tab === 2} />
+      <InboxTab active={tab === 3} />
     </SubNavigationPager>
   );
 }
