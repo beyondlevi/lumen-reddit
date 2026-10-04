@@ -1,8 +1,18 @@
 # lumen-reddit
 
-Reddit client for **Rokid Lumen** glasses, built as a Meta Ray-Ban Display (MRBD) web app with the
+Reddit client for [Rokid Lumen](https://github.com/beyondlevi/rokid-lumen) glasses, built as a Meta Ray-Ban Display (MRBD) web app with the
 official [UI Toolkit for Meta Ray-Ban Display](https://github.com/facebook/meta-ray-ban-display-ui-toolkit-web).
 It browses Reddit with the wearer's own Reddit session.
+
+> **Unofficial.** lumen-reddit is an independent project. It is not affiliated with, endorsed or
+> sponsored by Reddit, Inc., Meta Platforms, Inc., or Rokid. Reddit is a trademark of Reddit, Inc.,
+> used here only to say what the app works with.
+>
+> **Use at your own risk.** The app uses your own Reddit session cookies, not a registered OAuth app,
+> and the optional renewal Worker signs in to www.reddit.com for you. This may not comply with
+> Reddit's User Agreement or Data API Terms; Reddit may block it or act on the account. Use it only
+> with your own account, for yourself. The software is provided "as is", without warranty (see
+> [LICENSE](LICENSE)).
 
 - **Home, Popular, Communities, Inbox**: four peer tabs (`SubNavigationPager`). Each tab loads the first
   time it is shown, so opening the app costs two requests (the account and Home).
@@ -85,6 +95,11 @@ Limits to know:
 - Videos do not play on the glasses (the post says so); galleries show their first picture.
 - Writing comments, voting on polls and the "load more comments" stubs are not in this version.
 
+
+> **Your cookies are your account.** `reddit_session` gives full access to your Reddit account for
+> about six months, and `token_v2` for a day. Never share them, never put them in a Worker you didn't
+> deploy yourself (the Worker receives `reddit_session`), and sign out on reddit.com to revoke them.
+
 ## Manifest
 
 `public/manifest.webmanifest` declares `lumen_internet` and the `lumen_config` fields above (all
@@ -143,3 +158,16 @@ scripts/push-webapp.sh dist/lumen-reddit.mrbd.zip     # from the rokid-lumen rep
 
 or, on the phone, the companion's Apps tab, **Add > Offline package from a file**. Then set the Reddit
 session in the app's settings there.
+
+## License
+
+MIT, see [LICENSE](LICENSE). Copyright (c) 2026 Levi Nóbrega.
+
+Credits and third-party:
+
+- Inspired by [reddit-feed-even](https://github.com/plungarini/reddit-feed-even) by Pietro Lungarini (MIT).
+- Built on the [UI Toolkit for Meta Ray-Ban Display](https://github.com/facebook/meta-ray-ban-display-ui-toolkit-web)
+  (`@wearables-ui-toolkit/mrbd`, `foundation`: Apache-2.0, Copyright Meta Platforms, Inc.);
+  `@wearables-ui-toolkit/icons`, bundled into the built `.mrbd.zip`, is under the Meta Wearables
+  Developer Terms.
+- Runtime dependencies are MIT or Apache-2.0. Build tools keep their own licenses.
