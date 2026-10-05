@@ -102,10 +102,19 @@ Limits to know:
 
 ## Manifest
 
-`public/manifest.webmanifest` declares `lumen_internet` and the `lumen_config` fields above (all
-optional; the app tells what is missing) and `demo`. With `demo` set to exactly `demo-captures`, the app answers from
+`public/manifest.webmanifest` declares `lumen_internet`, `lumen_notifications` (below) and the
+`lumen_config` fields above (all optional; the app tells what is missing) and `demo`. With `demo` set to exactly `demo-captures`, the app answers from
 fictional content (`src/demo/fixtures.json`, illustrated pictures in `src/demo/assets/`), in English,
 for screenshots and videos. Votes, saves and read marks then change only that in-memory copy.
+
+## Opening from notifications
+
+The manifest's `lumen_notifications` entry lets an open Reddit notification (`com.reddit.frontpage`) on the
+glasses offer this app, which Lumen opens at `/notification/{tag}` with the notification's tag on the phone
+(Lumen 0.2.0-beta.9 or later). `src/notification.ts` reads the tag: activity on a post
+(`agg:t2_<user>:t3_<post>:<n>`) opens that post, or its comment when the tag also names a `t1_` comment that
+the thread shows; a message (`t4_`), a UUID, a group summary or anything else opens the Inbox tab. The
+notification route replaces itself, so Back goes to Home. With no tag, Lumen opens the start page.
 
 ## Develop
 
@@ -140,8 +149,10 @@ src/config/lumenConfig.ts   the lumen_config contract: token parsing, expiry, de
 src/reddit/                 client (Bearer, errors, rate limit), session renewal, parsers, markdown, models
 src/state/                  session (client, account, request runner), posts/feeds/threads, inbox/communities
 src/RedditProvider.tsx      one store around the page transitions
+src/notification.ts         where a phone notification's tag opens the app (post, comment or Inbox)
 src/pages/                  HomePage (tabs), FeedPosts, CommunitiesTab, InboxTab, SubredditPage,
-                            PostPage, CommentsPage, CommentPage, MessagePage, PhotoPage, SessionPage
+                            PostPage, CommentsPage, CommentPage, MessagePage, PhotoPage, SessionPage,
+                            NotificationPage
 src/components/             state content (empty, error, loading), vote buttons, avatar fallback
 src/demo/                   demo client, fixtures and pictures (also served by the mock)
 worker/index.mjs            the session Worker (Cloudflare); scripts/deploy-worker.mjs deploys it

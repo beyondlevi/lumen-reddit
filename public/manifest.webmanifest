@@ -2,7 +2,7 @@
   "id": "cloud.bynd.lumen.reddit",
   "name": "Reddit for Lumen",
   "short_name": "Reddit",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Browse Reddit with your own Reddit session: feeds, posts, comments, votes, saves and inbox.",
   "lang": "en",
   "start_url": "./",
@@ -21,5 +21,8 @@
     {"key": "reddit.token", "label": "Reddit token (token_v2 cookie, lasts a day)", "type": "secret", "optional": true},
     {"key": "demo", "label": "Demo mode (screenshots)", "type": "text", "optional": true}
   ],
-  "lumen_internet": true
+  "lumen_internet": true,
+  "lumen_notifications": [
+    {"packages": ["com.reddit.frontpage"], "open": "/notification/{tag}"}
+  ]
 }

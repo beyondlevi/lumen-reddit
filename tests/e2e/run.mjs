@@ -60,7 +60,7 @@ async function waitText(page, text, timeout = 8000) {
   await page.getByText(text, {exact: false}).first().waitFor({state: 'visible', timeout});
 }
 
-async function openApp(browser, name, config, appUrl = APP) {
+async function openApp(browser, name, config, appUrl = APP, route = '/') {
   const context = await browser.newContext({viewport: {width, height}, locale: 'en-US'});
   await context.addInitScript(values => {
     localStorage.setItem('lumen-reddit.dev-config', JSON.stringify(values));
@@ -68,7 +68,7 @@ async function openApp(browser, name, config, appUrl = APP) {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
-  await page.goto(`${appUrl}/`);
+  await page.goto(`${appUrl}${route}`);
   return {page, context, errors, shot: step => page.screenshot({path: path.join(outDir, `${name}-${step}.png`)})};
 }
 
@@ -247,11 +247,73 @@ const scenarios = {
     await context.close();
   },
 
+  async 'notification: activity on a post opens it, Back goes Home'(browser, name) {
+    await mock('/__mock/reset');
+    const {page, context, errors, shot} = await openApp(browser, name, session, APP, '/notification/agg%3At2_x%3At3_dm1%3A3');
+    await waitText(page, 'I keep buying new pairs');
+    assert.equal(new URL(page.url()).pathname, '/post/dm1');
+    await page.waitForTimeout(800);
+    await shot('post');
+    await press(page, 'Escape');
+    await waitText(page, 'Which glasses are you actually wearing');
+    assert.equal(new URL(page.url()).pathname, '/');
+    await focusUntil(page, 'ArrowUp', /Page 1 of 4/);
+    await page.waitForTimeout(800);
+    await shot('home');
+    assert.deepEqual(errors, []);
+    await context.close();
+  },
+
+  async 'notification: a comment tag opens the comment, Back goes Home'(browser, name) {
+    await mock('/__mock/reset');
+    const {page, context, errors, shot} = await openApp(browser, name, session, APP, '/notification/reply%3At3_dm1%3At1_c11');
+    await waitText(page, '1 reply');
+    assert.equal(new URL(page.url()).pathname, '/post/dm1/comment/c11');
+    await page.waitForTimeout(800);
+    await shot('comment');
+    await press(page, 'Escape');
+    await waitText(page, 'Which glasses are you actually wearing');
+    assert.equal(new URL(page.url()).pathname, '/');
+    assert.deepEqual(errors, []);
+    await context.close();
+  },
+
+  async 'notification: a UUID tag opens the Inbox'(browser, name) {
+    await mock('/__mock/reset');
+    const {page, context, errors, shot} = await openApp(browser, name, session, APP, '/notification/34ac9ceb-fd6f-4d72-af1c-8a91aedf11ab');
+    await waitText(page, 'Comfort first, then battery');
+    assert.equal(new URL(page.url()).pathname, '/');
+    await focusUntil(page, 'ArrowUp', /Page 4 of 4/);
+    await page.waitForTimeout(800);
+    await shot('inbox');
+    assert.deepEqual(errors, []);
+    await context.close();
+  },
+
   async 'offline package in demo mode'(browser, name) {
     const {page, context, errors, shot} = await openApp(browser, name, {demo: 'demo-captures'}, PACKAGE_APP);
     await waitText(page, 'Which glasses are you actually wearing');
     await focusUntil(page, 'ArrowDown', /Fog rolling in/, 6);
     await shot('demo-card');
+    assert.deepEqual(errors, []);
+    await context.close();
+  },
+
+  async 'offline package in demo mode: notification opens the post, Back goes Home'(browser, name) {
+    const {page, context, errors, shot} = await openApp(
+      browser,
+      name,
+      {demo: 'demo-captures'},
+      PACKAGE_APP,
+      '/notification/agg%3At2_x%3At3_dm1%3A3',
+    );
+    await waitText(page, 'I keep buying new pairs');
+    assert.equal(new URL(page.url()).pathname, '/post/dm1');
+    await page.waitForTimeout(800);
+    await shot('post');
+    await press(page, 'Escape');
+    await waitText(page, 'Which glasses are you actually wearing');
+    assert.equal(new URL(page.url()).pathname, '/');
     assert.deepEqual(errors, []);
     await context.close();
   },

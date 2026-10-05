@@ -5,6 +5,7 @@ import {CommentPage} from './pages/CommentPage';
 import {CommentsPage} from './pages/CommentsPage';
 import {HomePage} from './pages/HomePage';
 import {MessagePage} from './pages/MessagePage';
+import {NotificationPage} from './pages/NotificationPage';
 import {PhotoPage} from './pages/PhotoPage';
 import {PostPage} from './pages/PostPage';
 import {SessionPage} from './pages/SessionPage';
@@ -34,6 +35,7 @@ export default function RedditApp() {
                   <Route path="/post/:id/comment/:commentId" element={<CommentPage />} />
                   <Route path="/post/:id/comment/:commentId/replies" element={<CommentsPage />} />
                   <Route path="/message/:name" element={<MessagePage />} />
+                  <Route path="/notification/:tag" element={<NotificationPage />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               )}

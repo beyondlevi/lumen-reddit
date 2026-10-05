@@ -13,6 +13,7 @@ import {InboxTab} from './InboxTab';
 
 const HOME: FeedSource = {kind: 'home'};
 const POPULAR: FeedSource = {kind: 'popular'};
+export const INBOX_TAB = 3;
 
 /** The app's top level: Home, Popular, Communities and Inbox as peer tabs. */
 export function HomePage() {
@@ -39,7 +40,7 @@ export function HomePage() {
         active={tab === 1}
       />
       <CommunitiesTab active={tab === 2} />
-      <InboxTab active={tab === 3} />
+      <InboxTab active={tab === INBOX_TAB} />
     </SubNavigationPager>
   );
 }
